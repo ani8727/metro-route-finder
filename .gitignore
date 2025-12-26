@@ -1,3 +1,9 @@
+# Project-specific ignores 
+/.exe 
+/build/ 
+*.o 
+*.obj 
+.vscode/
 # Prerequisites
 *.d
 

@@ -2,76 +2,36 @@
 
 Simple C++ metro routing system with Dijkstra's algorithm.
 
-## 🚀 Quick Start
+# Metro Route Finder
 
-### Compile
-```bash
-g++ -std=c++17 -o metro main.cpp src/*.cpp -I include
-```
+Metro Route Finder is an educational, intermediate-level C++ project that demonstrates graph algorithms, software design, and small-scale route planning. It models a metro network as an undirected, weighted graph and uses Dijkstra's algorithm to find shortest paths between stations. The project is designed for learning and interview preparation: it showcases efficient data-structures (hash maps, priority queues), clean module separation, and a small interactive UI.
 
-### Run
-```bash
-metro.exe
-```
+Project goals:
+- Demonstrate Dijkstra's shortest-path implementation and its trade-offs.
+- Show clear separation of responsibilities (Graph, SearchEngine, FareCalculator, UI).
+- Provide a small, editable dataset and a menu-driven interface for experimentation.
 
-## About This Project
+Who it's for:
+- Students practicing algorithms and C++
+- Interview candidates preparing system-design + DSA exercises
+- Hobbyists building simple route planners or learning graph algorithms
 
-Metro Route Finder is an educational C++ project that demonstrates graph algorithms and software design for small-scale route planning. It implements Dijkstra's shortest-path algorithm on a simple undirected weighted graph of metro stations and connections. The project is aimed at interview preparation and learning core data-structures and algorithms (graphs, priority queues, hashing), as well as clean C++ project organization.
+Key Characteristics:
+- Language: C++17 (standard library only)
+- Data-driven: station and connection CSV files in `data/`
+- Modular: easy to extend (add heuristics, caching, UI)
 
-Key highlights:
-- Modular design with separate components for graph management, searching, fare calculation and UI.
-- File-based data input (CSV-like) so you can extend or replace the dataset easily.
-- Simple admin mode for adding stations/connections (in-memory) and reloading data from files.
+---
 
-## Quick Start — Extended
+## Features (short)
 
-1. Build (Windows example with g++):
-```powershell
-g++ -std=c++17 -o metro main.cpp src/*.cpp -I include
-```
+- Dijkstra's algorithm for weighted shortest paths
+- Station search (name/line/zone/autocomplete)
+- Simple fare calculator (distance + zone)
+- Admin mode (in-memory add/delete, reload from files)
+- Clean, file-based dataset under `data/`
 
-2. Run the executable:
-```powershell
-./metro.exe
-```
-
-3. When the app starts choose:
-- `1` Admin Login — to add/delete stations or reload from `data/` files.
-- `2` User Login — to use route finding and search features.
-
-Notes:
-- Data files live in the `data/` folder (`stations.txt`, `connections.txt`).
-- Admin additions (via menu) are applied in-memory; use "Reload data" to restore from files.
-- To permanently update the dataset, edit the files in `data/` and then use the reload option or restart the app.
-
-## Data files (where to find them)
-
-All input data is under the `data/` folder. See `data/DATA_INFO.md` for exact file formats and sample records.
-
-
-## � Login System
-
-**Two User Types:**
-
-### 1️⃣ ADMIN MODE
-- Add new stations
-- Delete stations
-- Add connections
-- View all stations
-- View network
-- View statistics
-- Reload data from files
-
-### 2️⃣ USER MODE
-- Find Shortest Route (Dijkstra's)
-- Search Stations (4 types)
-- View by Metro Line
-- Calculate Fare
-- Display All Stations
-- Display Network
-- Network Statistics
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 metro-route-finder/
@@ -87,44 +47,69 @@ metro-route-finder/
 │   ├── SearchEngine.cpp
 │   ├── FareCalculator.cpp
 │   └── UI.cpp
-├── data/                 # Data
-│   ├── stations.txt      (35 stations)
-│   └── connections.txt   (30+ connections)
-└── main.cpp              (Entry point with login)
+├── data/                 # Data files
+│   ├── stations.txt
+│   ├── connections.txt
+│   └── DATA_INFO.md      # Data format and editing instructions
+├── main.cpp              # Entry point with Admin/User login
+└── README.md
 ```
 
-## 🎮 Startup Flow
+## Data files
 
-```
-🚇 METRO ROUTE FINDER
-1. Admin Login        → Manage system
-2. User Login         → Use metro finder
-3. Exit               → Quit app
-```
-
-## 📊 Algorithm
-
-**Dijkstra's Shortest Path**
-- Time: O((V+E) log V)
-- Space: O(V + E)
-- Using: Priority queue + unordered_map
-
-## 💾 Data
-
-- **35 Stations** across 5 metro lines
-- **30+ Connections** with distances
-- Format: CSV files
-
-## ✨ Features
-
-- Dual login system (Admin/User)
-- Shortest path finding
-- Multi-type search
-- Fare calculation
-- Station management
-- Network visualization
-- Statistics display
+All data files live in `data/`. See `data/DATA_INFO.md` for formats and examples.
 
 ---
 
-**Language**: C++17 | **Size**: ~300 KB | **Build**: < 5 seconds
+## Login modes
+
+1) Admin — manage the dataset in-memory, add/delete stations, add connections, and reload data from files.
+2) User — interactive route finding, search, fare calculation, and network display.
+
+---
+
+## Detailed Features
+
+- Graph representation: adjacency list with weighted edges
+- Search engine: case-insensitive substring search + autocomplete
+- Fare calculator: base fare + distance + zone multipliers
+- UI: menu-driven console interface
+
+---
+
+## Quick Start & Run (bottom)
+
+This section explains how to build and run the project locally. It's replicated at the end of the file for convenience.
+
+---
+
+## Quick Start — Build & Run
+
+1. Build (Windows example with g++):
+
+```powershell
+g++ -std=c++17 -o metro main.cpp src/*.cpp -I include
+```
+
+2. Run the executable:
+
+```powershell
+.
+\metro.exe
+```
+
+3. Usage:
+
+- On start, choose `1` for Admin or `2` for User.
+- Admin actions are in-memory; edit `data/` files to persist changes.
+
+Notes:
+
+- Data files are in the `data/` folder: `stations.txt`, `connections.txt`.
+- Admin "Reload data" restores the graph from files.
+- To permanently change the dataset, edit the files in `data/` and restart the app.
+
+---
+
+For detailed data formats, see [data/DATA_INFO.md](data/DATA_INFO.md#L1).
+

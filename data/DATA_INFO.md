@@ -58,5 +58,3 @@ Notes:
 3. Start the app and select **Admin → Reload Data** to reload from files (or restart the app).
 
 ---
-
-If you want me to convert these CSV files into JSON or another format, I can add a converter script.

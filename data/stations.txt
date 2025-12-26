@@ -1,0 +1,37 @@
+# Metro Stations Data
+# Format: StationName,MetroLine,Zone,Latitude,Longitude
+
+Rajiv Chowk,Blue Line,1,28.6328,-77.2197
+Connaught Place,Blue Line,1,28.6337,-77.2178
+Barakhamba Road,Blue Line,1,28.6291,-77.2219
+Kashmere Gate,Blue Line,2,28.6509,-77.2313
+Civil Lines,Blue Line,2,28.6623,-77.2305
+Patel Chowk,Blue Line,1,28.6309,-77.2159
+Central Secretariat,Blue Line,1,28.6129,-77.2309
+Udyog Bhawan,Blue Line,1,28.5902,-77.2329
+Lok Kalyan Marg,Blue Line,1,28.5769,-77.2411
+Jorbagh,Blue Line,1,28.5698,-77.2485
+Mandi House,Blue Line,1,28.6177,-77.2402
+Pragati Maidan,Blue Line,2,28.6171,-77.2541
+Indraprastha,Blue Line,2,28.6157,-77.2677
+Yamuna Bank,Blue Line,2,28.6265,-77.2866
+Shastri Park,Red Line,2,28.6609,-77.2521
+Welcome,Red Line,2,28.6823,-77.2662
+Shahdara,Red Line,3,28.6996,-77.2701
+Chawri Bazaar,Red Line,1,28.6480,-77.2296
+New Delhi,Red Line,2,28.6431,-77.2197
+Ajmeri Gate,Red Line,2,28.6432,-77.2268
+Delhi Gate,Red Line,1,28.6414,-77.2301
+Jama Masjid,Red Line,1,28.6565,-77.2304
+Chandni Chowk,Red Line,1,28.6505,-77.2272
+Karol Bagh,Yellow Line,1,28.6450,-77.1911
+Jhandewalan,Yellow Line,1,28.6516,-77.1799
+Ramakrishna Ashram Marg,Yellow Line,1,28.6468,-77.1712
+Malka Ganj,Yellow Line,1,28.6595,-77.1596
+Ghanta Ghar,Yellow Line,1,28.6705,-77.1456
+Deshbandhu Gupta Road,Green Line,2,28.5588,-77.2671
+Ashoka Garden,Green Line,2,28.5431,-77.2704
+Suraj Kund,Green Line,2,28.5287,-77.2743
+Okhla Vihar,Green Line,3,28.5195,-77.2842
+Purple Line Central,Purple Line,1,28.6350,-77.2500
+Purple Line North,Purple Line,2,28.6600,-77.2400

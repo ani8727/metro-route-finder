@@ -1,0 +1,35 @@
+# Metro Connections
+# Format: Station1,Station2,Distance(km)
+
+Rajiv Chowk,Connaught Place,1.2
+Connaught Place,Barakhamba Road,1.5
+Barakhamba Road,Kashmere Gate,1.8
+Kashmere Gate,Civil Lines,1.2
+Rajiv Chowk,Patel Chowk,1.5
+Patel Chowk,Central Secretariat,0.9
+Central Secretariat,Udyog Bhawan,1.5
+Udyog Bhawan,Lok Kalyan Marg,0.8
+Lok Kalyan Marg,Jorbagh,1.3
+Barakhamba Road,Mandi House,1.4
+Mandi House,Pragati Maidan,1.8
+Pragati Maidan,Indraprastha,1.2
+Indraprastha,Yamuna Bank,1.9
+Kashmere Gate,Shastri Park,2.1
+Shastri Park,Welcome,1.8
+Welcome,Shahdara,1.4
+Chawri Bazaar,New Delhi,1.1
+New Delhi,Ajmeri Gate,0.9
+Ajmeri Gate,Delhi Gate,0.8
+Delhi Gate,Jama Masjid,0.7
+Jama Masjid,Chandni Chowk,0.6
+Chandni Chowk,Chawri Bazaar,0.9
+Karol Bagh,Jhandewalan,1.3
+Jhandewalan,Ramakrishna Ashram Marg,0.9
+Ramakrishna Ashram Marg,Malka Ganj,1.1
+Malka Ganj,Ghanta Ghar,1.4
+Deshbandhu Gupta Road,Ashoka Garden,1.5
+Ashoka Garden,Suraj Kund,1.7
+Suraj Kund,Okhla Vihar,1.3
+Connaught Place,Kashmere Gate,2.1
+Central Secretariat,Khan Market,1.5
+Rajiv Chowk,Karol Bagh,3.2

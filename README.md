@@ -14,6 +14,41 @@ g++ -std=c++17 -o metro main.cpp src/*.cpp -I include
 metro.exe
 ```
 
+## About This Project
+
+Metro Route Finder is an educational C++ project that demonstrates graph algorithms and software design for small-scale route planning. It implements Dijkstra's shortest-path algorithm on a simple undirected weighted graph of metro stations and connections. The project is aimed at interview preparation and learning core data-structures and algorithms (graphs, priority queues, hashing), as well as clean C++ project organization.
+
+Key highlights:
+- Modular design with separate components for graph management, searching, fare calculation and UI.
+- File-based data input (CSV-like) so you can extend or replace the dataset easily.
+- Simple admin mode for adding stations/connections (in-memory) and reloading data from files.
+
+## Quick Start — Extended
+
+1. Build (Windows example with g++):
+```powershell
+g++ -std=c++17 -o metro main.cpp src/*.cpp -I include
+```
+
+2. Run the executable:
+```powershell
+./metro.exe
+```
+
+3. When the app starts choose:
+- `1` Admin Login — to add/delete stations or reload from `data/` files.
+- `2` User Login — to use route finding and search features.
+
+Notes:
+- Data files live in the `data/` folder (`stations.txt`, `connections.txt`).
+- Admin additions (via menu) are applied in-memory; use "Reload data" to restore from files.
+- To permanently update the dataset, edit the files in `data/` and then use the reload option or restart the app.
+
+## Data files (where to find them)
+
+All input data is under the `data/` folder. See `data/DATA_INFO.md` for exact file formats and sample records.
+
+
 ## � Login System
 
 **Two User Types:**

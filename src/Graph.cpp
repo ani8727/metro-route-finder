@@ -6,6 +6,10 @@
 #include <cmath>
 #include <iomanip>
 
+#include <stack>
+#include <set>
+#include <tuple>
+
 void Graph::addStation(const std::string& name, const std::string& line,
                        int zone, double lat, double lon) {
     if (stations.find(name) == stations.end()) {
@@ -23,6 +27,192 @@ void Graph::addEdge(const std::string& station1, const std::string& station2,
         adjList[station1].push_back({station2, distance});
         adjList[station2].push_back({station1, distance});
     }
+}
+
+// Remove a station and all its edges
+bool Graph::removeStation(const std::string& name) {
+    if (stations.find(name) == stations.end()) return false;
+    stations.erase(name);
+    adjList.erase(name);
+    for (std::unordered_map<std::string, std::vector<std::pair<std::string, double>>>::iterator it = adjList.begin(); it != adjList.end(); ++it) {
+        std::vector<std::pair<std::string, double> >& v = it->second;
+        v.erase(std::remove_if(v.begin(), v.end(), [&](const std::pair<std::string, double>& p) { return p.first == name; }), v.end());
+    }
+    return true;
+}
+
+// Remove an edge between two stations
+bool Graph::removeEdge(const std::string& station1, const std::string& station2) {
+    bool found = false;
+    if (adjList.find(station1) != adjList.end()) {
+        auto& v = adjList[station1];
+        auto it = std::remove_if(v.begin(), v.end(), [&](const auto& p) { return p.first == station2; });
+        if (it != v.end()) { v.erase(it, v.end()); found = true; }
+    }
+    if (adjList.find(station2) != adjList.end()) {
+        auto& v = adjList[station2];
+        auto it = std::remove_if(v.begin(), v.end(), [&](const auto& p) { return p.first == station1; });
+        if (it != v.end()) { v.erase(it, v.end()); found = true; }
+    }
+    return found;
+}
+// BFS traversal from a station
+std::vector<std::string> Graph::bfs(const std::string& start) const {
+    std::vector<std::string> order;
+    if (!hasStation(start)) return order;
+    std::unordered_set<std::string> visited;
+    std::queue<std::string> q;
+    q.push(start);
+    visited.insert(start);
+    while (!q.empty()) {
+        std::string curr = q.front(); q.pop();
+        order.push_back(curr);
+        for (const auto& edge : adjList.at(curr)) {
+            if (visited.insert(edge.first).second) {
+                q.push(edge.first);
+            }
+        }
+    }
+    return order;
+}
+
+// DFS traversal from a station
+std::vector<std::string> Graph::dfs(const std::string& start) const {
+    std::vector<std::string> order;
+    if (!hasStation(start)) return order;
+    std::unordered_set<std::string> visited;
+    std::stack<std::string> s;
+    s.push(start);
+    while (!s.empty()) {
+        std::string curr = s.top(); s.pop();
+        if (visited.insert(curr).second) {
+            order.push_back(curr);
+            for (const auto& edge : adjList.at(curr)) {
+                if (!visited.count(edge.first)) s.push(edge.first);
+            }
+        }
+    }
+    return order;
+}
+
+// Helper for all-paths (recursive)
+void findAllPathsUtil(const std::string& u, const std::string& d, std::unordered_set<std::string>& visited,
+                      std::vector<std::string>& path, std::vector<std::vector<std::string>>& paths,
+                      const std::unordered_map<std::string, std::vector<std::pair<std::string, double>>>& adjList) {
+    visited.insert(u);
+    path.push_back(u);
+    if (u == d) {
+        paths.push_back(path);
+    } else {
+        auto it = adjList.find(u);
+        if (it != adjList.end()) {
+            for (const auto& edge : it->second) {
+                if (!visited.count(edge.first)) {
+                    findAllPathsUtil(edge.first, d, visited, path, paths, adjList);
+                }
+            }
+        }
+    }
+    path.pop_back();
+    visited.erase(u);
+}
+
+// Find all paths between two stations
+std::vector<std::vector<std::string>> Graph::findAllPaths(const std::string& source, const std::string& destination) const {
+    std::vector<std::vector<std::string>> paths;
+    if (!hasStation(source) || !hasStation(destination)) return paths;
+    std::unordered_set<std::string> visited;
+    std::vector<std::string> path;
+    findAllPathsUtil(source, destination, visited, path, paths, adjList);
+    return paths;
+}
+
+// Helper for cycle detection
+bool hasCycleUtil(const std::string& v, const std::string& parent,
+                  std::unordered_set<std::string>& visited,
+                  const std::unordered_map<std::string, std::vector<std::pair<std::string, double>>>& adjList) {
+    visited.insert(v);
+    auto it = adjList.find(v);
+    if (it != adjList.end()) {
+        for (const auto& edge : it->second) {
+            if (!visited.count(edge.first)) {
+                if (hasCycleUtil(edge.first, v, visited, adjList)) return true;
+            } else if (edge.first != parent) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Detect cycles in the network
+bool Graph::hasCycle() const {
+    std::unordered_set<std::string> visited;
+    for (const auto& pair : adjList) {
+        if (!visited.count(pair.first)) {
+            if (hasCycleUtil(pair.first, "", visited, adjList)) return true;
+        }
+    }
+    return false;
+}
+
+// Find connected components
+std::vector<std::vector<std::string>> Graph::connectedComponents() const {
+    std::vector<std::vector<std::string>> components;
+    std::unordered_set<std::string> visited;
+    for (const auto& pair : adjList) {
+        if (!visited.count(pair.first)) {
+            std::vector<std::string> comp;
+            std::queue<std::string> q;
+            q.push(pair.first);
+            visited.insert(pair.first);
+            while (!q.empty()) {
+                std::string curr = q.front(); q.pop();
+                comp.push_back(curr);
+                for (const auto& edge : adjList.at(curr)) {
+                    if (visited.insert(edge.first).second) {
+                        q.push(edge.first);
+                    }
+                }
+            }
+            components.push_back(comp);
+        }
+    }
+    return components;
+}
+
+// Minimum Spanning Tree (Prim's algorithm)
+std::vector<std::tuple<std::string, std::string, double>> Graph::minimumSpanningTree() const {
+    std::vector<std::tuple<std::string, std::string, double>> mst;
+    if (stations.empty()) return mst;
+    std::unordered_set<std::string> inMST;
+    auto cmp = [](const std::tuple<double, std::string, std::string>& a,
+                  const std::tuple<double, std::string, std::string>& b) {
+        return std::get<0>(a) > std::get<0>(b);
+    };
+    std::priority_queue<std::tuple<double, std::string, std::string>,
+                        std::vector<std::tuple<double, std::string, std::string>>,
+                        decltype(cmp)> pq(cmp);
+    // Start from any station
+    std::string start = stations.begin()->first;
+    inMST.insert(start);
+    for (std::vector<std::pair<std::string, double> >::const_iterator it = adjList.at(start).begin(); it != adjList.at(start).end(); ++it) {
+        pq.push(std::make_tuple(it->second, start, it->first));
+    }
+    while (!pq.empty() && inMST.size() < stations.size()) {
+        double weight;
+        std::string u, v;
+        std::tie(weight, u, v) = pq.top(); pq.pop();
+        if (inMST.count(v)) continue;
+        inMST.insert(v);
+        mst.push_back(std::make_tuple(u, v, weight));
+        for (std::vector<std::pair<std::string, double> >::const_iterator it2 = adjList.at(v).begin(); it2 != adjList.at(v).end(); ++it2) {
+            if (!inMST.count(it2->first)) {
+                pq.push(std::make_tuple(it2->second, v, it2->first));
+            }
+        }
+    }
+    return mst;
 }
 
 bool Graph::hasStation(const std::string& name) const {

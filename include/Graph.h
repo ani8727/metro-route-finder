@@ -34,9 +34,31 @@ public:
     void addStation(const std::string& name, const std::string& line, 
                    int zone, double lat = 0.0, double lon = 0.0);
     void addEdge(const std::string& station1, const std::string& station2, double distance);
+
+    // Remove station and edge
+    bool removeStation(const std::string& name);
+    bool removeEdge(const std::string& station1, const std::string& station2);
     
     // Dijkstra's Algorithm - O((V+E)log V)
     PathInfo findShortestPath(const std::string& source, const std::string& destination);
+
+    // BFS traversal from a station (returns order of visit)
+    std::vector<std::string> bfs(const std::string& start) const;
+
+    // DFS traversal from a station (returns order of visit)
+    std::vector<std::string> dfs(const std::string& start) const;
+
+    // Find all paths between two stations (backtracking/DFS)
+    std::vector<std::vector<std::string>> findAllPaths(const std::string& source, const std::string& destination) const;
+
+    // Detect cycles in the network (returns true if cycle exists)
+    bool hasCycle() const;
+
+    // Find connected components (returns list of components)
+    std::vector<std::vector<std::string>> connectedComponents() const;
+
+    // Compute Minimum Spanning Tree (Prim's algorithm, returns edges in MST)
+    std::vector<std::tuple<std::string, std::string, double>> minimumSpanningTree() const;
     
     // Query methods
     bool hasStation(const std::string& name) const;
@@ -54,3 +76,15 @@ public:
     // Getters for UI
     const std::unordered_map<std::string, Station>& getStations() const { return stations; }
 };
+
+/*
+ * Additional Algorithms/DSA exposed:
+ * - BFS, DFS traversals
+ * - All-paths search (backtracking)
+ * - Cycle detection (DFS)
+ * - Connected components (BFS/DFS)
+ * - Minimum Spanning Tree (Prim's)
+ * - Station/edge removal
+ *
+ * See implementation in src/Graph.cpp
+ */

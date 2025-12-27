@@ -1,11 +1,25 @@
+
 # About the `include/` folder
 
-This folder contains public header files (.h) that declare the interfaces used across the project. Below is a concise description of each header present in this project and what it exposes.
+This folder contains all the public header files (.h) that declare the interfaces and APIs used across the project. If you want to work on this project, extend its features, or understand how the code is organized, start here.
+
+## Working with the `include/` folder
+
+- All core functions, classes, and APIs are declared in this folder. To add new features, declare new functions or classes in a header file here first.
+- When adding a new function, class, or feature, update the relevant header file (or create a new one) and document the API clearly with comments.
+- Implement the logic in the corresponding .cpp file in `src/`.
+- If a new header is added, also add a matching .cpp file in `src/` and update the build system if needed.
+- Keep this documentation (`include_info.md`) up to date: briefly describe any new headers, major functions, or APIs added.
+- If new standard or third-party libraries are used, mention them in the header comments and here for clarity.
+
+This approach keeps the available APIs clear, makes it easy to extend the project, and helps maintain an organized and maintainable codebase.
 
 Headers (short):
 
 - `include/Station.h`: Declares the `Station` class/struct (name, line, zone, coordinates) and public helper declarations (display, comparisons).
 - `include/Graph.h`: Declares the `Graph` interface (add/remove stations and edges, load/save, `findShortestPath()` signature, helpers for printing and iterating the network).
+
+	- Also exposes: BFS, DFS, all-paths, cycle detection, connected components, minimum spanning tree (Prim's), and station/edge removal APIs for DSA/algorithm showcase.
 - `include/SearchEngine.h`: Declares search APIs used by the UI (`searchByName`, `searchByLine`, `searchByZone`, `getAutocompleteSuggestions`).
 - `include/FareCalculator.h`: Declares the `FareCalculator` API used to compute fares given path distance and zones.
 - `include/UI.h`: Declares UI helper functions used by `main.cpp` and the interactive menus.

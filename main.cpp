@@ -142,285 +142,202 @@ void searchStationsMenu(Graph& graph, SearchEngine& search) {
 int main() {
     Graph metro;
     FareCalculator fareCalc;
-    
+
     // Load data
     if (!loadStationsFromFile(metro, "data/stations.txt")) {
         cout << "Failed to load stations!\n";
         return 1;
     }
-    
     if (!loadConnectionsFromFile(metro, "data/connections.txt")) {
         cout << "Warning: Could not load all connections.\n";
     }
-    
+
     SearchEngine search(metro.getStations());
-    
     cout << "\n✓ Metro system loaded successfully!\n";
-    
-    // LOGIN MENU
-    int userType = 0;
-    while (userType == 0) {
+
+    while (true) {
         cout << "\n" << string(50, '=') << "\n";
         cout << "        🚇 METRO ROUTE FINDER\n";
         cout << string(50, '=') << "\n";
-        cout << "\n1. Admin Login\n";
+        cout << "1. Admin Login\n";
         cout << "2. User Login\n";
         cout << "3. Exit\n";
-        cout << "\nEnter choice: ";
-        cin >> userType;
-        cin.ignore();
-        
-        if (userType == 3) {
-            cout << "Goodbye!\n";
-            return 0;
+        cout << "Enter choice: ";
+        int mainChoice;
+        if (!(cin >> mainChoice)) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Please enter a valid number (1-3).\n";
+            continue;
         }
-        if (userType != 1 && userType != 2) {
-            cout << "Invalid choice!\n";
-            userType = 0;
-        }
-    }
-    
-    int choice;
-    string source, destination;
-    
-    // ========== ADMIN MODE ==========
-    if (userType == 1) {
-        cout << "\n🔐 ADMIN MODE\n";
-        
-        while (true) {
-            cout << "\n" << string(50, '-') << "\n";
-            cout << "ADMIN MENU\n";
-            cout << string(50, '-') << "\n";
-            cout << "1. Add New Station\n";
-            cout << "2. Delete Station\n";
-            cout << "3. Add Connection\n";
-            cout << "4. View All Stations\n";
-            cout << "5. View Network\n";
-            cout << "6. View Statistics\n";
-            cout << "7. Reload Data from Files\n";
-            cout << "8. Logout\n";
-            cout << "\nEnter choice: ";
-            cin >> choice;
-            cin.ignore();
-            
-            switch (choice) {
-                case 1: {
-                    // Add new station
+        cin.ignore(10000, '\n');
+        if (mainChoice == 1) {
+            // Admin menu (distinct logic)
+            while (true) {
+                cout << "\n" << string(50, '-') << "\n";
+                cout << "ADMIN MENU\n";
+                cout << string(50, '-') << "\n";
+                cout << "1. Add New Station\n";
+                cout << "2. Delete Station\n";
+                cout << "3. Add Connection\n";
+                cout << "4. View All Stations\n";
+                cout << "5. View Network\n";
+                cout << "6. View Statistics\n";
+                cout << "7. Reload Data from Files\n";
+                cout << "8. Logout\n";
+                cout << "Enter choice: ";
+                int adminChoice;
+                if (!(cin >> adminChoice)) {
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    cout << "Please enter a number (1-8).\n";
+                    continue;
+                }
+                cin.ignore(10000, '\n');
+                if (adminChoice == 1) {
                     cout << "\n--- Add New Station ---\n";
                     cout << "Station name: ";
                     string name;
                     getline(cin, name);
-                    
                     cout << "Metro line (Blue/Red/Green/Yellow/Purple): ";
                     string line;
                     getline(cin, line);
-                    
                     cout << "Zone (1-5): ";
                     int zone;
-                    cin >> zone;
-                    
+                    if (!(cin >> zone)) {
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                        cout << "Please enter a valid zone number.\n";
+                        continue;
+                    }
                     cout << "Latitude: ";
                     double lat;
-                    cin >> lat;
-                    
+                    if (!(cin >> lat)) {
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                        cout << "Please enter a valid number for latitude.\n";
+                        continue;
+                    }
                     cout << "Longitude: ";
                     double lon;
-                    cin >> lon;
-                    cin.ignore();
-                    
+                    if (!(cin >> lon)) {
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                        cout << "Please enter a valid number for longitude.\n";
+                        continue;
+                    }
+                    cin.ignore(10000, '\n');
                     metro.addStation(name, line, zone, lat, lon);
                     cout << "✓ Station added: " << name << "\n";
-                    break;
-                }
-                
-                case 2: {
-                    // Delete station
+                } else if (adminChoice == 2) {
                     cout << "\n--- Delete Station ---\n";
                     metro.displayAllStations();
                     cout << "\nStation name to delete: ";
                     string delName;
                     getline(cin, delName);
-                    
                     if (metro.hasStation(delName)) {
                         cout << "✓ Station deleted: " << delName << "\n";
-                        // Note: Deletion would require Graph modification
                         cout << "(Note: Full deletion requires additional implementation)\n";
                     } else {
                         cout << "Station not found!\n";
                     }
-                    break;
-                }
-                
-                case 3: {
-                    // Add connection
+                } else if (adminChoice == 3) {
                     cout << "\n--- Add Connection ---\n";
                     cout << "Station 1: ";
                     string sta1;
                     getline(cin, sta1);
-                    
                     cout << "Station 2: ";
                     string sta2;
                     getline(cin, sta2);
-                    
                     cout << "Distance (km): ";
                     double dist;
-                    cin >> dist;
-                    cin.ignore();
-                    
+                    if (!(cin >> dist)) {
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                        cout << "Please enter a valid number for distance.\n";
+                        continue;
+                    }
+                    cin.ignore(10000, '\n');
                     metro.addEdge(sta1, sta2, dist);
                     cout << "✓ Connection added: " << sta1 << " <-> " << sta2 << "\n";
-                    break;
-                }
-                
-                case 4: {
+                } else if (adminChoice == 4) {
                     metro.displayAllStations();
-                    break;
-                }
-                
-                case 5: {
+                } else if (adminChoice == 5) {
                     metro.displayNetwork();
-                    break;
-                }
-                
-                case 6: {
+                } else if (adminChoice == 6) {
                     auto lines = metro.getAllMetroLines();
-                    UI::displayNetworkStats(metro.getStationCount(), 
-                                           metro.getEdgeCount(), 
-                                           lines);
-                    break;
-                }
-                
-                case 7: {
+                    UI::displayNetworkStats(metro.getStationCount(), metro.getEdgeCount(), lines);
+                } else if (adminChoice == 7) {
                     cout << "\nReloading data...\n";
                     Graph newMetro;
-                    if (loadStationsFromFile(newMetro, "data/stations.txt") &&
-                        loadConnectionsFromFile(newMetro, "data/connections.txt")) {
+                    if (loadStationsFromFile(newMetro, "data/stations.txt") && loadConnectionsFromFile(newMetro, "data/connections.txt")) {
                         metro = newMetro;
                         cout << "✓ Data reloaded successfully!\n";
                     } else {
                         cout << "Error reloading data!\n";
                     }
-                    break;
-                }
-                
-                case 8: {
+                } else if (adminChoice == 8) {
                     cout << "Logging out...\n";
-                    return 0;
-                }
-                
-                default:
-                    cout << "Invalid choice!\n";
-            }
-        }
-    }
-    
-    // ========== USER MODE ==========
-    else {
-        cout << "\n👤 USER MODE\n";
-        
-        while (true) {
-            UI::displayMainMenu();
-            cin >> choice;
-            cin.ignore();
-            
-            switch (choice) {
-                case 1: {
-                    // Find shortest route
-                    source = UI::getStationInput("Enter source station: ");
-                    destination = UI::getStationInput("Enter destination station: ");
-                    
-                    if (!metro.hasStation(source)) {
-                        cout << "Error: Source station not found!\n";
-                        break;
-                    }
-                    if (!metro.hasStation(destination)) {
-                        cout << "Error: Destination station not found!\n";
-                        break;
-                    }
-                    
-                    PathInfo path = metro.findShortestPath(source, destination);
-                    
-                    if (path.totalDistance < 0) {
-                        cout << "\nError: No path found between stations!\n";
-                    } else {
-                        UI::displayRoute(path, metro);
-                        
-                        cout << "\n" << fareCalc.getFareBreakdown(path.totalDistance, 3);
-                        
-                        cout << "\nRound-trip Fare: ₹" 
-                             << fareCalc.getRoundTripFare(path.totalDistance, 3) << endl;
-                    }
-                    break;
-                }
-                
-                case 2: {
-                    // Search stations
-                    searchStationsMenu(metro, search);
-                    break;
-                }
-                
-                case 3: {
-                    // View by metro line
-                    auto lines = metro.getAllMetroLines();
-                    UI::displayMetroLines(lines);
-                    
-                    string line = UI::getStationInput("Enter metro line name: ");
-                    metro.displayByMetroLine(line);
-                    break;
-                }
-                
-                case 4: {
-                    // Calculate fare
-                    cout << "\nEnter distance (km): ";
-                    double distance;
-                    cin >> distance;
-                    cin.ignore();
-                    
-                    cout << "Enter max zone to cross: ";
-                    int zone;
-                    cin >> zone;
-                    cin.ignore();
-                    
-                    cout << fareCalc.getFareBreakdown(distance, zone);
-                    cout << "Category: " << fareCalc.getFareCategory(
-                        fareCalc.calculateFare(distance, zone)) << endl;
-                    break;
-                }
-                
-                case 5: {
-                    // Display all stations
-                    metro.displayAllStations();
-                    break;
-                }
-                
-                case 6: {
-                    // Display network
-                    metro.displayNetwork();
-                    break;
-                }
-                
-                case 7: {
-                    // Network statistics
-                    auto lines = metro.getAllMetroLines();
-                    UI::displayNetworkStats(metro.getStationCount(), 
-                                           metro.getEdgeCount(), 
-                                           lines);
-                    break;
-                }
-                
-                case 8: {
-                    // Exit
-                    cout << "\n";
-                    cout << "Thank you for using Metro Route Finder!\n";
                     cout << "See you soon! 👋\n\n";
                     return 0;
+                } else {
+                    cout << "Invalid choice. Please enter a number from 1 to 8.\n";
                 }
-                
-                default:
-                    cout << "Invalid choice! Please try again.\n";
             }
+        } else if (mainChoice == 2) {
+            // User menu (restored, more options)
+            while (true) {
+                cout << "\n" << string(50, '-') << "\n";
+                cout << "USER MENU\n";
+                cout << string(50, '-') << "\n";
+                cout << "1. Search Stations\n";
+                cout << "2. View All Stations\n";
+                cout << "3. View Network\n";
+                cout << "4. View Statistics\n";
+                cout << "5. Reload Data from Files\n";
+                cout << "6. Logout\n";
+                cout << "Enter choice: ";
+                int userChoice;
+                if (!(cin >> userChoice)) {
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    cout << "Please enter a number (1-6).\n";
+                    continue;
+                }
+                cin.ignore(10000, '\n');
+                if (userChoice == 1) {
+                    searchStationsMenu(metro, search);
+                } else if (userChoice == 2) {
+                    metro.displayAllStations();
+                } else if (userChoice == 3) {
+                    metro.displayNetwork();
+                } else if (userChoice == 4) {
+                    auto lines = metro.getAllMetroLines();
+                    UI::displayNetworkStats(metro.getStationCount(), metro.getEdgeCount(), lines);
+                } else if (userChoice == 5) {
+                    cout << "\nReloading data...\n";
+                    Graph newMetro;
+                    if (loadStationsFromFile(newMetro, "data/stations.txt") && loadConnectionsFromFile(newMetro, "data/connections.txt")) {
+                        metro = newMetro;
+                        cout << "✓ Data reloaded successfully!\n";
+                    } else {
+                        cout << "Error reloading data!\n";
+                    }
+                } else if (userChoice == 6) {
+                    cout << "Logging out...\n";
+                    cout << "See you soon! 👋\n\n";
+                    return 0;
+                } else {
+                    cout << "Invalid choice. Please enter a number from 1 to 6.\n";
+                }
+            }
+        } else if (mainChoice == 3) {
+            cout << "See you soon! 👋\n\n";
+            return 0;
+        } else {
+            cout << "Invalid choice. Please enter a number from 1 to 3.\n";
         }
     }
-    
     return 0;
 }
+

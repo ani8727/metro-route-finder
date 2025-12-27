@@ -1,6 +1,13 @@
+
 # Metro Route Finder
 
 Simple C++ metro routing system with Dijkstra's algorithm.
+
+---
+
+## About this Project
+
+This repository contains a modular, data-driven C++ application for metro route finding and fare calculation. The codebase is organized for easy extension and maintenance. Anyone interested in adding new features, updating data, or learning from the code can get started quickly using the notes below.
 
 # Metro Route Finder
 
@@ -31,6 +38,20 @@ Key Characteristics:
 - Admin mode (in-memory add/delete, reload from files)
 - Clean, file-based dataset under `data/`
 
+## Algorithms & Data Structures Showcased
+
+- **Dijkstra's Algorithm** (shortest path)
+- **Breadth-First Search (BFS)** (reachability, traversal)
+- **Depth-First Search (DFS)** (traversal, cycle detection)
+- **All-paths search** (backtracking/DFS)
+- **Cycle detection** (DFS)
+- **Connected components** (BFS/DFS)
+- **Minimum Spanning Tree (Prim's algorithm)**
+- **Graph mutation** (add/remove stations/edges)
+- **STL containers:** `unordered_map`, `vector`, `queue`, `stack`, `set`, `tuple`, `priority_queue`
+
+All algorithms are implemented in `Graph` and can be used for interview prep or as a reference for classic DSA patterns in C++.
+
 ## Project Structure
 
 ```
@@ -55,9 +76,19 @@ metro-route-finder/
 └── README.md
 ```
 
+
+## Extending and Maintaining the Project
+
+- To add new algorithms or features, declare them in the appropriate header in `include/` and implement them in `src/`.
+- Use the public API for BFS, DFS, MST, etc. in your own code or for further UI integration.
+- When adding new data fields or files, update the relevant info files in `data/` and adjust the code as needed.
+- Keep this README and the info files up to date with any major changes or additions.
+- If you use new libraries or dependencies, mention them in the relevant file comments and here if important.
+
+
 ## Data files
 
-All data files live in `data/`. See `data/DATA_INFO.md` for formats and examples.
+All data files live in `data/`. See `data/DATA_INFO.md` for formats and examples. To update the metro network, edit `stations.txt` and `connections.txt` as described in the data info file.
 
 ---
 
@@ -111,5 +142,14 @@ Notes:
 
 ---
 
+
 For detailed data formats, see [data/DATA_INFO.md](data/DATA_INFO.md#L1).
+
+---
+
+## Contributing or Customizing
+
+- To add new features, follow the structure: declare in `include/`, implement in `src/`, and document in the relevant info files.
+- For new data or formats, coordinate changes across `data/`, `include/`, and `src/` as needed.
+- Keep documentation up to date so others can easily understand and build on your work.
 

@@ -1,3 +1,8 @@
+# Exclude interview preparation guide files
+INTERVIEW_GUIDE.md
+src/SRC_GUIDE.md
+include/INCLUDE_GUIDE.md
+data/DATA_GUIDE.md
 # Project-specific ignores 
 /.exe 
 /build/ 
